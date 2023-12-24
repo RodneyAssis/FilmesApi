@@ -2,11 +2,13 @@ package com.FilmesAPI.controller;
 
 
 import com.FilmesAPI.models.entidades.Filmes;
-import com.FilmesAPI.models.repositorio.FilmeRepositorio;
+import com.FilmesAPI.models.repositorio.IFilmeRepositorio;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,34 +16,48 @@ import java.util.UUID;
 @RequestMapping(path = "/api/filmes")
 public class FilmeController {
     @Autowired
-    FilmeRepositorio filmeRepositorio;
+    IFilmeRepositorio IFilmeRepositorio;
 
-//    Deverá ter os seguintes endPoints
-//    [GET] Para obter todos os filmes
-//        O retorno deverá ser o id do filme, título e classificação
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/viewAll")
+    @Operation(description = "Exibe todos os filmes")
     public Iterable<Filmes> viewAllFilmes(){
-        return filmeRepositorio.ConsultaAllFilmes();
+        return IFilmeRepositorio.ConsultaAllFilmes();
     }
 
-//    [GET] Obter filme pelo id
-//        O retorno deverá ser o id,, titulo, descricao, ano de lançamento e classificação
+
 
     @GetMapping(path = "/{id}")
+    @Operation(description = "Exibe filmes por ID")
+    @ApiResponses(value = {
+
+    })
     public Optional<Filmes> viewAllForID(@PathVariable UUID id){
-        return filmeRepositorio.findById(id);
+        return IFilmeRepositorio.findById(id);
     }
 
-//    [POST] Para criar filmes
-//        Post de todos os dados para criar o filme
-//    [PUT] Para editar filmes
-//        Put com todos os dados para editar o filme
 
-    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT}, path = "/salvar")
-    public Filmes saveFilmes(Filmes filmes){
-        filmeRepositorio.save(filmes);
+    @PostMapping(path = "/create")
+    @Operation(description = "adiciona filmes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Filme adicionado com sucesso")
+    })
+    public UUID addFilme(@RequestBody Filmes filmes){
+        IFilmeRepositorio.save(filmes);
+        return filmes.getFilmeid();
+    }
+
+    @PutMapping(path = "/update")
+    @Operation(description = "requisição para realizar alguma modificação no filme")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Modificação realizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Filme não encontrado ou ID inesistente")
+    })
+    public Filmes saveFilmes(@RequestBody Filmes filmes){
+        IFilmeRepositorio.save(filmes);
         return filmes;
     }
+
+
 
 }
