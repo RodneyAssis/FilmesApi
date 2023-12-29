@@ -65,7 +65,7 @@ public class AtorController {
             @ApiResponse(responseCode = "200", description = "Ator deletado sucesso"),
             @ApiResponse(responseCode = "400", description = "Erro ao inserir o ID")
     })
-    @DeleteMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/deleteID/{id}")
     public void deletarPorID(@PathVariable UUID id){
         iAtorRepositorio.deleteById(id);
     }

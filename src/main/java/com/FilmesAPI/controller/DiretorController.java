@@ -25,7 +25,7 @@ public class DiretorController {
         return IDiretorRepositorio.viewAllDiretor();
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/viewForID/{id}")
     @Operation(description = "Exibe diretor por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Diretor exibido com sucesso"),

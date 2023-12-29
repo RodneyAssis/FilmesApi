@@ -40,7 +40,7 @@ public class FilmeController {
         return IFilmeRepositorio.ConsultaAllFilmes();
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/viewForID/{id}")
     @Operation(description = "Exibe filmes por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Filme exibido com sucesso"),
@@ -75,7 +75,7 @@ public class FilmeController {
         return filmes;
     }
 
-    @DeleteMapping(path = "/deleta/{id}")
+    @DeleteMapping(path = "/deletaID/{id}")
     @Operation(description = "Deletar filme apartir do ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Filme apagado com sucesso."),
